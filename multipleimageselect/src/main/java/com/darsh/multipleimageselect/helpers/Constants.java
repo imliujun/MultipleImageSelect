@@ -1,7 +1,13 @@
 package com.darsh.multipleimageselect.helpers;
 
 /**
- * Created by Darshan on 5/26/2015.
+ * 项目名称：MultipleImageSelect
+ * 类描述：
+ * 创建人：Darshan
+ * 创建时间：5/26/2015
+ * 修改人：LiuJun
+ * 修改时间：6/16/2017 14:10
+ * 修改备注：Add support GIF images parameters
  */
 public class Constants {
     public static final int PERMISSION_REQUEST_CODE = 1000;
@@ -16,15 +22,19 @@ public class Constants {
 
     /**
      * Request code for permission has to be < (1 << 8)
-     * Otherwise throws java.lang.IllegalArgumentException: Can only use lower 8 bits for requestCode
+     * Otherwise throws java.lang.IllegalArgumentException: Can only use lower 8 bits for
+     * requestCode
      */
     public static final int PERMISSION_REQUEST_READ_EXTERNAL_STORAGE = 23;
 
     public static final String INTENT_EXTRA_ALBUM = "album";
     public static final String INTENT_EXTRA_IMAGES = "images";
     public static final String INTENT_EXTRA_LIMIT = "limit";
+    public static final String INTENT_EXTRA_IS_SUPPORT_GIF = "isSupportGif";
     public static final int DEFAULT_LIMIT = 10;
 
     //Maximum number of images that can be selected at a time
     public static int limit;
+    //default Support Gif
+    public static boolean isSupportGif;
 }

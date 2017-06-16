@@ -32,7 +32,13 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
- * Created by Darshan on 4/14/2015.
+ * 项目名称：MultipleImageSelect
+ * 类描述：
+ * 创建人：Darshan
+ * 创建时间：4/14/2015
+ * 修改人：LiuJun
+ * 修改时间：6/16/2017 14:47
+ * 修改备注：Add support GIF images parameters
  */
 public class AlbumSelectActivity extends HelperActivity {
     private ArrayList<Album> albums;
@@ -49,10 +55,9 @@ public class AlbumSelectActivity extends HelperActivity {
     private Handler handler;
     private Thread thread;
 
-    private final String[] projection = new String[]{
-            MediaStore.Images.Media.BUCKET_ID,
-            MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
-            MediaStore.Images.Media.DATA };
+    private final String[] projection = new String[] { MediaStore.Images.Media.BUCKET_ID,
+            MediaStore.Images.Media.BUCKET_DISPLAY_NAME, MediaStore.Images.Media.DATA };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,9 +80,11 @@ public class AlbumSelectActivity extends HelperActivity {
         Intent intent = getIntent();
         if (intent == null) {
             finish();
+            return;
         }
         Constants.limit = intent.getIntExtra(Constants.INTENT_EXTRA_LIMIT, Constants.DEFAULT_LIMIT);
-
+        Constants.isSupportGif = intent
+                .getBooleanExtra(Constants.INTENT_EXTRA_IS_SUPPORT_GIF, true);
         errorDisplay = (TextView) findViewById(R.id.text_view_error);
         errorDisplay.setVisibility(View.INVISIBLE);
 
@@ -92,6 +99,7 @@ public class AlbumSelectActivity extends HelperActivity {
             }
         });
     }
+
 
     @Override
     protected void onStart() {
@@ -120,7 +128,6 @@ public class AlbumSelectActivity extends HelperActivity {
                             progressBar.setVisibility(View.INVISIBLE);
                             gridView.setVisibility(View.VISIBLE);
                             orientationBasedUI(getResources().getConfiguration().orientation);
-
                         } else {
                             adapter.notifyDataSetChanged();
                         }
@@ -145,10 +152,12 @@ public class AlbumSelectActivity extends HelperActivity {
                 loadAlbums();
             }
         };
-        getContentResolver().registerContentObserver(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, false, observer);
+        getContentResolver()
+                .registerContentObserver(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, false, observer);
 
         checkPermission();
     }
+
 
     @Override
     protected void onStop() {
@@ -165,6 +174,7 @@ public class AlbumSelectActivity extends HelperActivity {
         }
     }
 
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -179,23 +189,29 @@ public class AlbumSelectActivity extends HelperActivity {
         gridView.setOnItemClickListener(null);
     }
 
+
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         orientationBasedUI(newConfig.orientation);
     }
 
+
     private void orientationBasedUI(int orientation) {
-        final WindowManager windowManager = (WindowManager) getApplicationContext().getSystemService(Context.WINDOW_SERVICE);
+        final WindowManager windowManager = (WindowManager) getApplicationContext()
+                .getSystemService(Context.WINDOW_SERVICE);
         final DisplayMetrics metrics = new DisplayMetrics();
         windowManager.getDefaultDisplay().getMetrics(metrics);
 
         if (adapter != null) {
-            int size = orientation == Configuration.ORIENTATION_PORTRAIT ? metrics.widthPixels / 2 : metrics.widthPixels / 4;
+            int size = orientation == Configuration.ORIENTATION_PORTRAIT
+                       ? metrics.widthPixels / 2
+                       : metrics.widthPixels / 4;
             adapter.setLayoutParams(size);
         }
         gridView.setNumColumns(orientation == Configuration.ORIENTATION_PORTRAIT ? 2 : 4);
     }
+
 
     @Override
     public void onBackPressed() {
@@ -204,17 +220,17 @@ public class AlbumSelectActivity extends HelperActivity {
         finish();
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == Constants.REQUEST_CODE
-                && resultCode == RESULT_OK
-                && data != null) {
+        if (requestCode == Constants.REQUEST_CODE && resultCode == RESULT_OK && data != null) {
             setResult(RESULT_OK, data);
             finish();
         }
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -230,9 +246,11 @@ public class AlbumSelectActivity extends HelperActivity {
         }
     }
 
+
     private void loadAlbums() {
         startThread(new AlbumLoaderRunnable());
     }
+
 
     private class AlbumLoaderRunnable implements Runnable {
         @Override
@@ -244,8 +262,7 @@ public class AlbumSelectActivity extends HelperActivity {
             }
 
             Cursor cursor = getApplicationContext().getContentResolver()
-                    .query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection,
-                            null, null, MediaStore.Images.Media.DATE_ADDED);
+                                                   .query(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, projection, null, null, MediaStore.Images.Media.DATE_ADDED);
             if (cursor == null) {
                 sendMessage(Constants.ERROR);
                 return;
@@ -277,7 +294,6 @@ public class AlbumSelectActivity extends HelperActivity {
                             albumSet.add(albumId);
                         }
                     }
-
                 } while (cursor.moveToPrevious());
             }
             cursor.close();
@@ -292,11 +308,13 @@ public class AlbumSelectActivity extends HelperActivity {
         }
     }
 
+
     private void startThread(Runnable runnable) {
         stopThread();
         thread = new Thread(runnable);
         thread.start();
     }
+
 
     private void stopThread() {
         if (thread == null || !thread.isAlive()) {
@@ -311,6 +329,7 @@ public class AlbumSelectActivity extends HelperActivity {
         }
     }
 
+
     private void sendMessage(int what) {
         if (handler == null) {
             return;
@@ -321,12 +340,14 @@ public class AlbumSelectActivity extends HelperActivity {
         message.sendToTarget();
     }
 
+
     @Override
     protected void permissionGranted() {
         Message message = handler.obtainMessage();
         message.what = Constants.PERMISSION_GRANTED;
         message.sendToTarget();
     }
+
 
     @Override
     protected void hideViews() {
