@@ -1,4 +1,6 @@
-#MultipleImageSelect
+# MultipleImageSelect
+
+**Replace Glide with Fresco**
 
 ![Alt text](/screenshots/mis.gif)
 
@@ -6,8 +8,8 @@ An android library that allows selection of multiple images from gallery. It sho
 album (buckets) chooser and then images in selected album. Can limit the number of images that
 can be selected. Can be used in apps with APK 11 onwards.
 
-Sample app can be found [here](https://github.com/darsh2/MultipleImageSelect/tree/master/sample) 
-#Usage
+Sample app can be found [here](https://github.com/darsh2/MultipleImageSelect/tree/master/sample)
+# Usage
 Include this library in your project using gradle (thanks to [JitPack.io](https://github.com/jitpack-io)).
 
 For stable build:
@@ -19,7 +21,7 @@ repositories {
 }
 
 dependencies {
-  compile 'com.github.darsh2:MultipleImageSelect:v0.0.4'
+  compile 'com.github.imliujun:MultipleImageSelect:v1.0.0'
 }
 ```
 
@@ -32,7 +34,7 @@ repositories {
 }
 
 dependencies {
-  compile 'com.github.darsh2:MultipleImageSelect:3474549'
+  compile 'com.github.imliujun:MultipleImageSelect:3474549'
 }
 ```
 
@@ -60,10 +62,10 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
   if (requestCode == Constants.REQUEST_CODE && resultCode == RESULT_OK && data != null) {
     //The array list has the image paths of the selected images
     ArrayList<Image> images = data.getParcelableArrayListExtra(Constants.INTENT_EXTRA_IMAGES);
-    ...  
+    ...
 }
 ```
-#Custom Styles
+# Custom Styles
 ![Alt text](/screenshots/misCC.gif)
 
 1. To change the color of UI elements, in colors.xml file, override the following attributes with the desired colors. Example:
@@ -78,7 +80,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 <color name="multiple_image_select_divider">#B6B6B6</color>
 <color name="multiple_image_select_toolbarPrimaryText">#FFFFFF</color>
 <color name="multiple_image_select_albumTextBackground">#99FFFFFF</color>
-<color name="multiple_image_select_imageSelectBackground">#000000</color>    
+<color name="multiple_image_select_imageSelectBackground">#000000</color>
 ```
 
 ![Alt text](/screenshots/misCT.gif)
@@ -104,13 +106,13 @@ Create the theme you want to use along with a theme for toolbar and actionmode. 
 ```
 
 AndroidManifest.xml:
-Add ```tools:replace="android:theme"``` to AlbumSelectActivity and ImageSelectActivity and specify theme to use. Example: 
+Add ```tools:replace="android:theme"``` to AlbumSelectActivity and ImageSelectActivity and specify theme to use. Example:
 
 ```xml
 <manifest ...
   xmlns:tools="http://schemas.android.com/tools"
   ...>
-  
+
   <activity android:name="com.darsh.multipleimageselect.activities.AlbumSelectActivity"
 		tools:replace="android:theme"
     android:theme="@style/OverrideMultipleImageSelectTheme">
@@ -126,18 +128,18 @@ Add ```tools:replace="android:theme"``` to AlbumSelectActivity and ImageSelectAc
     </intent-filter>
   </activity>
 ```
-#Screenshots
+## Screenshots
 Can be found [here](https://github.com/darsh2/MultipleImageSelect/tree/master/screenshots)
-#Apps using this
+## Apps using this
 [Gallery Organizer](https://play.google.com/store/apps/details?id=com.darsh.galleryorganizer2)
 
 [PictureJam Collage Maker](https://play.google.com/store/apps/details?id=xyz.pichancer.picturejam.free)
-#Similar Projects
+## Similar Projects
 Similar libraries can be found [here](https://android-arsenal.com/tag/157)
-#Acknowledgements
+## Acknowledgements
 This library makes use of [Glide](https://github.com/bumptech/glide) by Bump Technologies.
 (Thanks to [WindSekirun](https://github.com/WindSekirun) for suggesting Glide)
-#License
+## License
 ```license
 Copyright 2015 Darshan Dorai
 
@@ -153,3 +155,5 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 ```
+
+
